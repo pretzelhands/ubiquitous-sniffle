@@ -5,8 +5,8 @@
 exports.up = function(knex) {
     return knex.schema.createTable('upvotes', function(table) {
         table.increments('id').primary()
-        table.string('user_id').notNullable()
-        table.string('comment_id').notNullable()
+        table.integer('user_id').notNullable()
+        table.integer('comment_id').notNullable()
     })
 }
 

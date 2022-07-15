@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-const db = require('./db')
-const { dateToRelativeTime } = require('./utils')
+const db = require('../db')
+const { dateToRelativeTime } = require('../utils')
 
 // GET /api/comments
 router.get('/', async (req, res) => {

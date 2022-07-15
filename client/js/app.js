@@ -1,3 +1,29 @@
+(async () => {
+    try {
+        await setupUser()
+        await setupComments()
+    } catch (e) {
+        renderGenericError()
+    }
+})()
+
+async function setupUser() {
+    const res = await fetch('http://localhost:3000/api/users/random')
+    window.user = await res.json()
+
+    // We set the avatar on the submission form so the user can
+    // identify who they're posting as.
+    const submitAvatar = document.getElementById('js-submit-avatar')
+    submitAvatar.setAttribute('src', user.avatar)
+}
+
+async function setupComments() {
+    const res = await fetch('http://localhost:3000/api/comments')
+    const comments = await res.json()
+
+    renderCommentsList(comments)
+}
+
 function renderCommentsList(comments) {
     const container = document.getElementById('js-comments-container')
     const renderedComments = comments.map(renderComment)
@@ -30,18 +56,11 @@ function setElementText(parent, id, text) {
 
 
 function renderGenericError() {
+    const container = document.getElementById('js-comments-container')
+    const errorTemplate = document.getElementById('js-template-error')
+    const renderedError = errorTemplate.content.cloneNode(true)
 
+    container.replaceChildren(renderedError)
 }
-
-(async () => {
-    try {
-        const res = await fetch('http://localhost:3000/api/comments')
-        const comments = await res.json()
-
-        renderCommentsList(comments)
-    } catch (e) {
-        renderGenericError()
-    }
-})()
 
 

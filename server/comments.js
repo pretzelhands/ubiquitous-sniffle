@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const db = require('./db')
-// const {Comment} = require('./models')
+const { dateToRelativeTime } = require('./utils')
 
 // GET /api/comments
 router.get('/', async (req, res) => {
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
     const comments = rawComments.map(data => ({
         id: data.id,
         text: data.text,
-        createdAt: data.created_at,
+        createdAt: dateToRelativeTime(data.created_at),
         upvotes: data.upvotes,
         user: {
             id: data.user_id,

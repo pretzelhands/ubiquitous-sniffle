@@ -5,18 +5,86 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Comment Trial Project</title>
+    <title>👨‍💻 Comment Coding Challenge</title>
 
     <!--
     Put in head to prevent FUOC (Flash of unstyled content) that can happen
     when you parse Tailwind on the fly via CDN
     -->
     <script type="text/javascript" src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'purple-ghost': '#7E34F6',
+
+                        'ghost-body': '#21293C',
+                        'ghost-meta': '#4B587C'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="min-h-screen flex items-center justify-center">
-    <div>
-        <h1 class="font-bold text-xl">Hello World</h1>
+<body class="p-6 min-h-screen flex justify-center">
+    <div class="w-full max-w-2xl">
+        <h1 class="text-lg font-bold leading-none">Discussion</h1>
+
+        <form class="flex pt-8 pb-11 border-b border-neutral-200">
+            <img
+                alt="User profile image"
+                src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1111.jpg"
+                class="w-8 h-8 rounded-full"
+            />
+
+            <input
+                type="text"
+                name="comment"
+                placeholder="What are your thoughts?"
+                class="inline-block flex-1 mx-3 py-2 px-3 text-xs border-neutral-200 rounded focus:ring-purple-ghost"
+            />
+
+            <button
+                class="px-4 bg-purple-ghost focus:bg-purple-900 focus:outline-none text-xs text-white font-bold rounded"
+            >
+                Comment
+            </button>
+        </form>
+
+        <div id="js-comments-container" class="mt-8"></div>
     </div>
+
+    <template id="js-template-single-comment">
+        <div class="mt-8 flex items-start text-ghost-body">
+            <img
+                    src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1111.jpg"
+                    id="js-comment-avatar"
+                    class="w-8 h-8 rounded-full"
+            />
+
+            <div class="ml-3">
+                <div class="space-x-1 text-xs text-ghost-meta">
+                    <span id="js-comment-username" class="font-semibold text-sm text-ghost-body">Rob Hope</span>
+                    &bull;<span id="js-comment-timestamp">45 min ago</span>
+                </div>
+
+                <div class="mt-1 text-sm leading-normal">
+                    <span id="js-comment-body">Jeepers now that's a huge release with some big community earnings to back it - it must be so rewarding seeing creators quit their day jobs after monetizing (with real MRR) on the new platform.</span>
+                </div>
+
+                <div class="mt-4 space-x-8 text-xs text-ghost-meta font-bold">
+                    <div class="inline-flex items-center">
+                        <span class="text-[8px] pr-1">&#9650;</span>
+                        Upvote&nbsp;
+                        <span id="js-comment-upvotes"></span>
+                    </div>
+
+                    <span>Reply</span>
+                </div>
+            </div>
+        </div>
+    </template>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/js/app.js"></script>

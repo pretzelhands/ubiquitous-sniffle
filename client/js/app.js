@@ -77,4 +77,11 @@ function renderGenericError() {
     container.replaceChildren(renderedError)
 }
 
+function renderErrorToast(text) {
+    const toast = document.getElementById('js-toast')
+    toast.innerText = text
+    toast.classList.remove('opacity-0')
+
+    setTimeout(() => toast.classList.add('opacity-0'), 2000)
+}
 

@@ -31,16 +31,18 @@
     <div class="w-full max-w-2xl">
         <h1 class="text-lg font-bold leading-none">Discussion</h1>
 
-        <form class="flex pt-8 pb-11 border-b border-neutral-200">
+        <form id="js-comment-form" class="flex pt-8 pb-11 border-b border-neutral-200">
             <img
                 id="js-submit-avatar"
                 class="w-8 h-8 flex-shrink-0 rounded-full bg-neutral-200"
             />
 
             <input
+                required
                 type="text"
-                name="comment"
+                name="text"
                 placeholder="What are your thoughts?"
+                id="js-form-comment-text"
                 class="inline-block flex-1 mx-3 py-2 px-3 text-xs border-neutral-200 rounded focus:ring-purple-ghost"
             />
 
@@ -101,6 +103,7 @@
 
     <script type="text/javascript" src="/js/services.js"></script>
     <script type="text/javascript" src="/js/utils.js"></script>
+    <script type="text/javascript" src="/js/events.js"></script>
     <script type="text/javascript" src="/js/app.js"></script>
 </body>
 </html>

@@ -32,3 +32,11 @@ function sendPostRequest(url, body) {
         }
     )
 }
+
+function formToDictionary(form) {
+    let formData = Array.from(form.elements)
+        .filter(el => el.name)
+        .map(el => ({ [el.name]: el.value }))
+
+    return Object.assign({}, ...formData)
+}

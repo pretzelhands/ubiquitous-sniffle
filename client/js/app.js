@@ -2,6 +2,12 @@
     try {
         await setupUser()
         await setupComments()
+
+        addDynamicEventHandler(
+            'js-comment-form',
+            'submit',
+            Events.handleCommentSubmit
+        )
     } catch (e) {
         renderGenericError()
     }
@@ -23,10 +29,7 @@ async function setupComments() {
     addDynamicEventHandler(
         'js-comment-upvote-button',
         'click',
-        async ({ target }) => {
-            const res = await Backend.Comments.upvote(target.dataset.comment)
-            renderUpdatedVoteCount(target, res)
-        }
+        Events.handleUpvote
     )
 }
 

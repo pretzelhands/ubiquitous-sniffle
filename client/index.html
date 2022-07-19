@@ -45,7 +45,7 @@
             />
 
             <button
-                class="px-4 bg-purple-ghost focus:bg-purple-900 focus:outline-none text-xs text-white font-bold rounded"
+                class="px-4 bg-purple-ghost hover:bg-purple-900 focus:bg-purple-900 focus:outline-none text-xs text-white font-bold rounded"
             >
                 Comment
             </button>
@@ -74,13 +74,16 @@
                 </div>
 
                 <div class="mt-4 space-x-8 text-xs text-ghost-meta font-bold">
-                    <div class="inline-flex items-center">
+                    <div
+                        id="js-comment-upvote-button"
+                        class="inline-flex items-center hover:text-purple-ghost cursor-pointer"
+                    >
                         <span class="text-[8px] pr-1">&#9650;</span>
                         Upvote&nbsp;
                         <span id="js-comment-upvotes"></span>
                     </div>
 
-                    <span>Reply</span>
+                    <span class="hover:text-purple-ghost cursor-pointer">Reply</span>
                 </div>
             </div>
         </div>
@@ -96,7 +99,8 @@
         </div>
     </template>
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/js/services.js"></script>
+    <script type="text/javascript" src="/js/utils.js"></script>
     <script type="text/javascript" src="/js/app.js"></script>
 </body>
 </html>

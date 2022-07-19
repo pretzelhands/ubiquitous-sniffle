@@ -8,8 +8,7 @@
 })()
 
 async function setupUser() {
-    const res = await fetch('http://localhost:3000/api/users/random')
-    window.user = await res.json()
+    const user = await Backend.Auth.fetchRandomUser()
 
     // We set the avatar on the submission form so the user can
     // identify who they're posting as.
@@ -18,10 +17,17 @@ async function setupUser() {
 }
 
 async function setupComments() {
-    const res = await fetch('http://localhost:3000/api/comments')
-    const comments = await res.json()
+    const comments = await Backend.Comments.fetchAll()
 
     renderCommentsList(comments)
+    addDynamicEventHandler(
+        'js-comment-upvote-button',
+        'click',
+        async ({ target }) => {
+            const res = await Backend.Comments.upvote(target.dataset.comment)
+            renderUpdatedVoteCount(target, res)
+        }
+    )
 }
 
 function renderCommentsList(comments) {
@@ -39,6 +45,13 @@ function renderComment(comment) {
     avatar.setAttribute('src', comment.user.avatar)
     avatar.setAttribute('alt', `Picture of ${comment.user.name}`)
 
+    const upvoteButton = renderedComment.getElementById('js-comment-upvote-button')
+    upvoteButton.dataset.comment = comment.id
+
+    if (comment.currentUserHasVoted) {
+        upvoteButton.classList.add('text-purple-ghost')
+    }
+
     setElementText(renderedComment, 'js-comment-username', comment.user.name)
     setElementText(renderedComment, 'js-comment-timestamp', comment.createdAt)
     setElementText(renderedComment, 'js-comment-body', comment.text)
@@ -47,13 +60,11 @@ function renderComment(comment) {
     return renderedComment
 }
 
-function setElementText(parent, id, text) {
-    const element = parent.getElementById(id)
-    element.innerText = text
+function renderUpdatedVoteCount(upvoteTarget, data) {
+    upvoteTarget.classList.toggle('text-purple-ghost')
 
-    return element
+    setElementText(upvoteTarget, 'js-comment-upvotes', `(${data.upvoteCount})`)
 }
-
 
 function renderGenericError() {
     const container = document.getElementById('js-comments-container')

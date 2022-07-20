@@ -40,3 +40,10 @@ function formToDictionary(form) {
 
     return Object.assign({}, ...formData)
 }
+
+export {
+    setElementText,
+    addDynamicEventHandler,
+    sendPostRequest,
+    formToDictionary
+}

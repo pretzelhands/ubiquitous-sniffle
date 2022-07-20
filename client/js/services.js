@@ -1,3 +1,5 @@
+import { sendPostRequest } from './utils.js'
+
 const BASE_URL = 'http://localhost:3000'
 
 class CommentsService {
@@ -45,7 +47,7 @@ class AuthService {
     }
 }
 
-const Backend = {
+export default {
     Comments: new CommentsService(),
     Auth: new AuthService()
 }

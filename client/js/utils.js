@@ -41,7 +41,21 @@ function formToDictionary(form) {
     return Object.assign({}, ...formData)
 }
 
+/**
+ * This function is probably written in a way that is a bit too clever for production use.
+ * It's heavily inspired by the idea behind the classnames npm library. In production it makes
+ * sense to just pull in that.
+ */
+function classnames(classes) {
+    return Object
+        .entries(classes)
+        .filter(([_, predicate]) => !!predicate)
+        .map(([classNames]) => classNames)
+        .join(' ')
+}
+
 export {
+    classnames,
     setElementText,
     addDynamicEventHandler,
     sendPostRequest,

@@ -3,17 +3,6 @@ import { renderErrorToast, renderUpdatedVoteCount, renderCommentsList } from './
 import { formToDictionary } from './utils.js'
 
 export default class Events {
-    static async handleUpvote({ target }) {
-        const res = await Backend.Comments.upvote(target.dataset.comment)
-
-        if (!res.success) {
-            renderErrorToast("The upvote couldn't be tracked. Please try again later")
-            return
-        }
-
-        renderUpdatedVoteCount(target, res)
-    }
-
     static async handleCommentSubmit(event) {
         event.preventDefault()
 
@@ -30,7 +19,7 @@ export default class Events {
             return
         }
 
-        const comment = Object.assign({}, ...res);
+        const comment = Object.assign({}, res);
         delete comment.success;
 
         window.comments = [comment, ...window.comments]

@@ -25,14 +25,9 @@ function renderComment(comment) {
     const reactRoot = ReactDOM.createRoot(upvoteButton)
     reactRoot.render(html`<${UpvoteCounter} comment=${comment} />`)
 
-    if (comment.currentUserHasVoted) {
-        upvoteButton.classList.add('text-purple-ghost')
-    }
-
     setElementText(renderedComment, 'js-comment-username', comment.user.name)
     setElementText(renderedComment, 'js-comment-timestamp', comment.createdAt)
     setElementText(renderedComment, 'js-comment-body', comment.text)
-    setElementText(renderedComment, 'js-comment-upvotes', `(${comment.upvotes})`)
 
     return renderedComment
 }

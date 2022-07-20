@@ -93,6 +93,7 @@ router.post('/:commentId/upvote', async (req, res) => {
     if (existingUpvote) {
         await existingUpvote.destroy();
         return res.json({
+            success: true,
             commentId,
             upvoteCount: await Upvote
                 .where({ comment_id: commentId })

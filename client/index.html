@@ -38,41 +38,26 @@
     <div class="w-full max-w-2xl">
         <h1 class="text-lg font-bold leading-none">Discussion</h1>
 
-        <form id="js-comment-form" class="flex pt-8 pb-11 border-b border-neutral-200">
-            <img
-                id="js-submit-avatar"
-                class="w-8 h-8 flex-shrink-0 rounded-full bg-neutral-200"
-            />
-
-            <input
-                required
-                type="text"
-                name="text"
-                placeholder="What are your thoughts?"
-                id="js-form-comment-text"
-                class="inline-block flex-1 mx-3 py-2 px-3 text-xs border-neutral-200 rounded focus:ring-purple-ghost"
-            />
-
-            <button
-                class="px-4 bg-purple-ghost hover:bg-purple-900 focus:bg-purple-900 focus:outline-none text-xs text-white font-bold rounded"
-            >
-                Comment
-            </button>
-        </form>
-
+        <div id="js-comment-form-container" class="pt-8 pb-11 border-b border-neutral-200"></div>
         <div id="js-comments-container" class="mt-8 space-y-8"></div>
     </div>
 
     <!-- Single comment template -->
     <template id="js-template-single-comment">
-        <div class="flex items-start text-ghost-body">
+        <div class="w-full flex items-start text-ghost-body relative">
             <img
                     src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1111.jpg"
                     id="js-comment-avatar"
-                    class="w-8 h-8 rounded-full"
+                    class="relative z-10 w-8 h-8 rounded-full"
             />
 
-            <div class="ml-3">
+            <div
+                role="presentation"
+                id="js-comment-replies-indicator"
+                class="hidden absolute top-0 left-4 translate-x-[-1px] h-full w-[2px] bg-neutral-200"
+            ></div>
+
+            <div class="ml-3 flex-1">
                 <div class="space-x-1 text-xs text-ghost-meta">
                     <span id="js-comment-username" class="font-semibold text-sm text-ghost-body">Rob Hope</span>
                     &bull;<span id="js-comment-timestamp">45 min ago</span>
@@ -86,15 +71,41 @@
                     <div class="inline-block" id="js-comment-upvote-button">
                         <div class="hover:text-purple-ghost cursor-pointer">
                             <span class="text-[8px] pr-1">&#9650;</span>
-                            Upvote&nbsp;
-                            <span id="js-comment-upvotes">(0)</span>
+                            Upvote&nbsp;(0)
                         </div>
                     </div>
 
-                    <span class="hover:text-purple-ghost cursor-pointer">Reply</span>
+                    <span id="js-comment-reply-button" class="hover:text-purple-ghost cursor-pointer">Reply</span>
                 </div>
+
+                <div id="js-comment-reply-form" class="hidden p-4 bg-neutral-100 rounded mt-4"></div>
+                <div id="js-comment-replies" class="space-y-8"></div>
             </div>
         </div>
+    </template>
+
+    <template id="js-template-comment-form">
+        <form id="js-comment-form" class="flex">
+            <img
+                    id="js-submit-avatar"
+                    class="w-8 h-8 flex-shrink-0 rounded-full bg-neutral-200"
+            />
+
+            <input
+                    required
+                    type="text"
+                    name="text"
+                    placeholder="What are your thoughts?"
+                    id="js-form-comment-text"
+                    class="inline-block flex-1 mx-3 py-2 px-3 text-xs border-neutral-200 rounded focus:ring-purple-ghost"
+            />
+
+            <button
+                    class="px-4 bg-purple-ghost hover:bg-purple-900 focus:bg-purple-900 focus:outline-none text-xs text-white font-bold rounded"
+            >
+                Comment
+            </button>
+        </form>
     </template>
 
     <!-- Error template -->

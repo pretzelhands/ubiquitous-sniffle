@@ -1,18 +1,12 @@
 import Events from './events.js'
 import Backend from './services.js'
-import { renderGenericError, renderCommentsList } from './dom.js'
-import { addDynamicEventHandler, setElementText } from './utils.js'
+import { renderGenericError, renderCommentsList, renderCommentForm } from './dom.js'
+import { addDynamicEventHandler } from './utils.js'
 
 (async () => {
     try {
         await setupUser()
         await setupComments()
-
-        addDynamicEventHandler(
-            'js-comment-form',
-            'submit',
-            Events.handleCommentSubmit
-        )
     } catch (e) {
         console.warn(e)
         renderGenericError()
@@ -20,22 +14,24 @@ import { addDynamicEventHandler, setElementText } from './utils.js'
 })()
 
 async function setupUser() {
-    const user = await Backend.Auth.fetchRandomUser()
-
-    // We set the avatar on the submission form so the user can
-    // identify who they're posting as.
-    const submitAvatar = document.getElementById('js-submit-avatar')
-    submitAvatar.setAttribute('src', user.avatar)
+    await Backend.Auth.fetchRandomUser()
 }
 
 async function setupComments() {
-    const comments = await Backend.Comments.fetchAll()
+    const { comments } = await Backend.Comments.fetchAll()
+
+    renderCommentForm(document.getElementById('js-comment-form-container'))
+    addDynamicEventHandler(
+        'js-comment-form',
+        'submit',
+        Events.handleCommentSubmit
+    )
 
     renderCommentsList(comments)
     addDynamicEventHandler(
-        'js-comment-upvote-button',
+        'js-comment-reply-button',
         'click',
-        Events.handleUpvote
+        Events.handleReply
     )
 }
 

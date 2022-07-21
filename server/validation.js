@@ -2,7 +2,8 @@ const yup = require('yup')
 
 const commentSchema = yup.object().shape({
     text: yup.string().required(),
-    userId: yup.number().required()
+    userId: yup.number().required(),
+    parentId: yup.number()
 })
 
 const upvoteSchema = yup.object().shape({

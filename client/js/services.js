@@ -9,9 +9,10 @@ class CommentsService {
         // voted on a comment.
 
         const res = await fetch(`${BASE_URL}/api/comments?userId=${window.user.id}`)
-        window.comments = await res.json()
+        const data = await res.json();
+        window.comments = data.comments
 
-        return comments
+        return data
     }
 
     async upvote(id) {
@@ -30,7 +31,8 @@ class CommentsService {
             `${BASE_URL}/api/comments`,
             {
                 userId: window.user.id,
-                text: data.text
+                parentId: data.parentId,
+                text: data.text,
             }
         )
 

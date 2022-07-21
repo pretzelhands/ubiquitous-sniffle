@@ -1,10 +1,34 @@
 import htm from 'https://unpkg.com/htm?module'
 
-import { setElementText } from './utils.js'
+import { dateToRelativeTime, setElementText } from './utils.js'
 
 import UpvoteCounter from './components/UpvoteCounter.js'
 
 const html = htm.bind(React.createElement)
+
+function renderCommentForm(container, parentId = null) {
+    const formTemplate = document.getElementById('js-template-comment-form')
+    const renderedForm = formTemplate.content.cloneNode(true)
+
+    const submitAvatar = renderedForm.getElementById('js-submit-avatar')
+    submitAvatar.setAttribute('src', user.avatar)
+
+    if (parentId) {
+        const parentIdInput = document.createElement('input')
+        parentIdInput.name = 'parentId'
+        parentIdInput.type = 'hidden'
+        parentIdInput.value = parentId
+
+        renderedForm
+            .querySelector('form')
+            .appendChild(parentIdInput)
+
+        container.classList.remove('hidden')
+    }
+
+    container.replaceChildren(renderedForm)
+}
+
 
 function renderCommentsList(comments) {
     const container = document.getElementById('js-comments-container')
@@ -25,17 +49,30 @@ function renderComment(comment) {
     const reactRoot = ReactDOM.createRoot(upvoteButton)
     reactRoot.render(html`<${UpvoteCounter} comment=${comment} />`)
 
+    const replyButton = renderedComment.getElementById('js-comment-reply-button')
+    if (!comment.parentId) {
+        replyButton.dataset.comment = comment.id
+    } else {
+        // We only support one level of nesting
+        replyButton.remove()
+    }
+
     setElementText(renderedComment, 'js-comment-username', comment.user.name)
-    setElementText(renderedComment, 'js-comment-timestamp', comment.createdAt)
+    setElementText(renderedComment, 'js-comment-timestamp', dateToRelativeTime(comment.createdAt))
     setElementText(renderedComment, 'js-comment-body', comment.text)
 
+    if (comment.replies && comment.replies.length) {
+        const replies = comment.replies.map(renderComment)
+
+        const repliesContainer = renderedComment.getElementById('js-comment-replies')
+        repliesContainer.classList.add('mt-8')
+        repliesContainer.replaceChildren(...replies)
+
+        const repliesIndicator = renderedComment.getElementById('js-comment-replies-indicator')
+        repliesIndicator.classList.remove('hidden')
+    }
+
     return renderedComment
-}
-
-function renderUpdatedVoteCount(upvoteTarget, data) {
-    upvoteTarget.classList.toggle('text-purple-ghost')
-
-    setElementText(upvoteTarget, 'js-comment-upvotes', `(${data.upvoteCount})`)
 }
 
 function renderGenericError() {
@@ -56,9 +93,9 @@ function renderErrorToast(text) {
 
 export {
     html,
+    renderCommentForm,
     renderCommentsList,
     renderComment,
-    renderUpdatedVoteCount,
     renderGenericError,
     renderErrorToast,
 }

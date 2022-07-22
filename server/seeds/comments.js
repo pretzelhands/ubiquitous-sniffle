@@ -6,9 +6,9 @@ const { randomIntInRange } = require('../utils')
  * @returns { Promise<void> } 
  */
 exports.seed = async function(knex) {
-  const comments = [... new Array(10).keys()].map((index) => ({
+  const comments = [... new Array(4).keys()].map((index) => ({
     id: index + 1,
-    user_id: randomIntInRange(1, 10),
+    user_id: randomIntInRange(1, 4),
     text: faker.lorem.sentences(),
   }))
 

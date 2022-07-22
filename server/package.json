@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "serve": "node app.js",
-    "dev": "nodemon app.js"
+    "serve": "node boot.js",
+    "dev": "nodemon boot.js",
+    "test": "ava"
   },
   "dependencies": {
     "bookshelf": "^1.2.0",
@@ -15,6 +16,8 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.3.0",
-    "nodemon": "^2.0.19"
+    "ava": "^4.3.1",
+    "nodemon": "^2.0.19",
+    "supertest": "^6.2.4"
   }
 }

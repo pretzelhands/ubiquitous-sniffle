@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const db = require('../db')
-const { Upvote, Comment } = require('../models')
+const { Upvote, Comment, User } = require('../models')
 const { upvoteSchema, commentSchema } = require("../validation");
 
 function mapComment(data, rawComments, userVotes) {
@@ -75,6 +75,18 @@ router.post('/', async (req, res) => {
         })
     }
 
+    if (parentId) {
+        const existingComment = await new Comment({id: parentId}).fetch()
+        if (!existingComment) {
+            return res.json({
+                success: false,
+                errors: [
+                    'Comment does not exist'
+                ]
+            })
+        }
+    }
+
     const newComment = await Comment.forge({
         user_id: userId,
         parent_id: parentId,
@@ -111,6 +123,16 @@ router.post('/:commentId/upvote', async (req, res) => {
         return res.json({
             success: false,
             errors: e.errors
+        })
+    }
+
+    const existingUser = await new User({ id: data.userId }).fetch()
+    if (!existingUser) {
+        return res.json({
+            success: false,
+            errors: [
+                'User does not exist'
+            ]
         })
     }
 

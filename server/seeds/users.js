@@ -5,7 +5,7 @@ const { faker } = require('@faker-js/faker')
  * @returns { Promise<void> } 
  */
 exports.seed = async function(knex) {
-  const people = [... new Array(10).keys()].map((index) => ({
+  const people = [... new Array(4).keys()].map((index) => ({
     id: index + 1,
     name: faker.name.findName(),
     avatar: faker.image.avatar({ width: 128, height: 128 }),

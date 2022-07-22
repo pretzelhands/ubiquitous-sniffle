@@ -1,6 +1,5 @@
+import Constants from './constants.js'
 import { sendPostRequest } from './utils.js'
-
-const BASE_URL = 'http://localhost:3000'
 
 class CommentsService {
     async fetchAll() {
@@ -8,7 +7,7 @@ class CommentsService {
         // user server-side, and I need that information to show whether a user has already
         // voted on a comment.
 
-        const res = await fetch(`${BASE_URL}/api/comments?userId=${window.user.id}`)
+        const res = await fetch(`${Constants.BASE_URL}/api/comments?userId=${window.user.id}`)
         const data = await res.json();
         window.comments = data.comments
 
@@ -17,7 +16,7 @@ class CommentsService {
 
     async upvote(id) {
         const res = await sendPostRequest(
-            `${BASE_URL}/api/comments/${id}/upvote`,
+            `${Constants.BASE_URL}/api/comments/${id}/upvote`,
             {
                 userId: window.user.id
             }
@@ -28,7 +27,7 @@ class CommentsService {
 
     async postComment(data) {
         const res = await sendPostRequest(
-            `${BASE_URL}/api/comments`,
+            `${Constants.BASE_URL}/api/comments`,
             {
                 userId: window.user.id,
                 parentId: data.parentId,
@@ -42,7 +41,7 @@ class CommentsService {
 
 class AuthService {
     async fetchRandomUser() {
-        const res = await fetch(`${BASE_URL}/api/users/random`)
+        const res = await fetch(`${Constants.BASE_URL}/api/users/random`)
         window.user = await res.json()
 
         return user

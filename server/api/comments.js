@@ -3,7 +3,6 @@ const router = express.Router()
 
 const db = require('../db')
 const { Upvote, Comment } = require('../models')
-const { dateToRelativeTime } = require('../utils')
 const { upvoteSchema, commentSchema } = require("../validation");
 
 function mapComment(data, rawComments, userVotes) {
@@ -101,11 +100,13 @@ router.post('/', async (req, res) => {
 
 // POST /api/comments/:commentId/upvote
 router.post('/:commentId/upvote', async (req, res) => {
-    const { commentId } = req.params
+    const { wss } = req
     const { userId } = req.body
+    const { commentId } = req.params
+    let data = {}
 
     try {
-        await upvoteSchema.validate({ userId, commentId })
+        data = await upvoteSchema.validate({ userId, commentId })
     } catch (e) {
         return res.json({
             success: false,
@@ -113,28 +114,29 @@ router.post('/:commentId/upvote', async (req, res) => {
         })
     }
 
-    const existingUpvote = await new Upvote({ comment_id: commentId, user_id: userId }).fetch()
+    const existingUpvote = await new Upvote({ comment_id: data.commentId, user_id: data.userId }).fetch()
     if (existingUpvote) {
         await existingUpvote.destroy();
-        return res.json({
-            success: true,
-            commentId,
-            upvoteCount: await Upvote
-                .where({ comment_id: commentId })
-                .count(),
-        })
+    } else {
+        await Upvote
+            .forge({comment_id: data.commentId, user_id: data.userId})
+            .save()
     }
 
-    await Upvote
-        .forge({comment_id: commentId, user_id: userId})
-        .save()
+    const upvoteCount = await Upvote
+        .where({ comment_id: data.commentId })
+        .count()
+
+    wss.clients.forEach(
+        client => client.send(
+            JSON.stringify({ commentId: data.commentId, userId: data.userId, upvoteCount })
+        )
+    )
 
     return res.json({
         success: true,
-        commentId,
-        upvoteCount: await Upvote
-            .where({ comment_id: commentId })
-            .count()
+        commentId: data.commentId,
+        upvoteCount,
     })
 })
 

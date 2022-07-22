@@ -1,4 +1,4 @@
-import htm from 'https://unpkg.com/htm?module'
+import htm from './lib/htm.js'
 
 import { dateToRelativeTime, setElementText } from './utils.js'
 

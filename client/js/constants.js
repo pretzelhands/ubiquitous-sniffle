@@ -1,4 +1,4 @@
 export default {
-    BASE_URL: 'http://localhost:3000',
-    WEBSOCKET_BASE_URL: 'ws://localhost:3000'
+    BASE_URL: 'https://comments-trial.pretzelhands.com',
+    WEBSOCKET_BASE_URL: 'wss://comments-trial.pretzelhands.com'
 }

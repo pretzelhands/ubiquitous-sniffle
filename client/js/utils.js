@@ -66,7 +66,7 @@ const units = {
 
 function dateToRelativeTime(date) {
     const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
-    const timeAgo = new Date(date) - new Date()
+    const timeAgo = new Date(date.replace(" ", "T")) - new Date()
 
     for (const u in units) {
         if (Math.abs(timeAgo) > units[u] || u === 'second') {
